@@ -4,7 +4,11 @@ import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import controller.VideoGameInfoController;
+import controller.VideoGameInfoControllerImpl;
 import dyds.videogameInfo.fulllogic.DataBase;
+import model.VideoGameInfoModel;
+import model.VideoGameInfoModelImpl;
 import views.*;
 
 
@@ -18,8 +22,14 @@ public class Main {
          * throws SQLException y lo agarre en el main ?*/
         dataBase.loadDatabase();
 
-        SearchInWikipediaView wikiView = new SearchInWikipediaViewImpl(null, null);
-        StoredInfoView storedInfo = new StoredInfoViewImpl(null, null);
+        VideoGameInfoModel model = new VideoGameInfoModelImpl();
+
+        VideoGameInfoController controller = new VideoGameInfoControllerImpl(model);
+        SearchInWikipediaView wikiView = new SearchInWikipediaViewImpl(controller, model);
+        controller.setSearchInWikipediaView(wikiView);
+
+        StoredInfoView storedInfo = new StoredInfoViewImpl(controller, model);
+        controller.setStoredInfoView(storedInfo);
 
         ArrayList<BaseView> allMyTabs = new ArrayList<BaseView>();
         allMyTabs.add(wikiView);

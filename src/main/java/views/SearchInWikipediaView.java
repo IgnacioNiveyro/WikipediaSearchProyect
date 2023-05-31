@@ -1,8 +1,8 @@
 package views;
 
 public interface SearchInWikipediaView extends BaseView{
-    void startWaitingStatus();
+    void startWorkingStatus();
 
-    void stopWaitingStatus();
+    void stopWorkingStatus();
 
 }

@@ -73,7 +73,7 @@ public class MainWindow {
                 callForSearchResponse = searchAPI.searchForTerm(searchBoxInWikipedia.getText() + " articletopic:\"video-games\"").execute();
 
                 //Show the result for testing reasons, if it works, dont forget to delete!
-                //System.out.println("JSON " + callForSearchResponse.body());
+                System.out.println("JSON " + callForSearchResponse.body());
 
                 //ToGustavo: This is the code process the search results for the query
                 //Each result is stored in a JsonArray

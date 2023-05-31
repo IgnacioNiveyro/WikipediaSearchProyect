@@ -33,7 +33,7 @@ public class APIImpl implements API{
     public Response<String> getPageAPI(String id) {
         Response<String> response = null;
         try {
-            Response<String> callForPageResponse = pageAPI.getExtractByPageID(id).execute();
+            response = pageAPI.getExtractByPageID(id).execute();
         }catch(IOException e){
             e.printStackTrace();
         }
