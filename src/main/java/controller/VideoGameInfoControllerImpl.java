@@ -1,5 +1,7 @@
 package controller;
 
+import model.ModelDB;
+import model.ModelDBInterface;
 import model.VideoGameInfoModel;
 import views.SearchInWikipediaView;
 import views.StoredInfoView;
@@ -9,9 +11,12 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     private SearchInWikipediaView searchInWikipediaView;
     private StoredInfoView storedInfoView;
     private Thread taskThread;
+    private ModelDBInterface modelDB;
 
     public VideoGameInfoControllerImpl(VideoGameInfoModel videoGameInfoModel){
         this.videoGameInfoModel = videoGameInfoModel;
+        modelDB = new ModelDB(videoGameInfoModel);
+        //onEventSaveLocallyButton();
     }
 
     public void setSearchInWikipediaView(SearchInWikipediaView searchInWikipediaView) {this.searchInWikipediaView = searchInWikipediaView; }
@@ -25,6 +30,10 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
         });
         taskThread.start();
     }
-
+    @Override
+    public void onEventSaveLocallyButton(){
+        if(searchInWikipediaView.getLastSearchedText() != "")
+            modelDB.saveInfo(searchInWikipediaView.getSelectedResultTitle().replace("'","`"),searchInWikipediaView.getLastSearchedText());
+    }
 
 }

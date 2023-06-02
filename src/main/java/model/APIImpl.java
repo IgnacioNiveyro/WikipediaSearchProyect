@@ -1,7 +1,5 @@
 package model;
 
-import dyds.videogameInfo.fulllogic.WikipediaPageAPI;
-import dyds.videogameInfo.fulllogic.WikipediaSearchAPI;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -29,7 +27,7 @@ public class APIImpl implements API{
 
     public WikipediaSearchAPI getSearchAPI() { return searchAPI; }
 
-    @Override
+
     public Response<String> getPageAPI(String id) {
         Response<String> response = null;
         try {

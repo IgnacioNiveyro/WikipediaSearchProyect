@@ -8,4 +8,6 @@ public interface VideoGameInfoController {
     public void setSearchInWikipediaView(SearchInWikipediaView searchInWikipediaView);
     public void setStoredInfoView(StoredInfoView storedInfoView);
     void onEventSearch(String title);
+
+    void onEventSaveLocallyButton();
 }

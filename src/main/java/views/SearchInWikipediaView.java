@@ -5,4 +5,8 @@ public interface SearchInWikipediaView extends BaseView{
 
     void stopWorkingStatus();
 
+    String getLastSearchedText();
+
+    String getSelectedResultTitle();
+
 }

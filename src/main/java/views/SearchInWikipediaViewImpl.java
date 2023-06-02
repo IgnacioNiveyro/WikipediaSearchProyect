@@ -9,6 +9,7 @@ import model.VideoGameInfoModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 
 import static model.HTMLConverter.textToHtml;
 
@@ -28,6 +29,8 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     private JTextPane searchInWikipediaDisplayPane;
     private JButton saveLocallyButton;
     protected String tabbedTitle;
+    private JOptionPane informationMessage;
+    private JOptionPane errorMessage;
     public SearchInWikipediaViewImpl(VideoGameInfoController videoGameInfoController, VideoGameInfoModel videoGameInfoModel) {
         this.videoGameInfoController = videoGameInfoController;
         this.videoGameInfoModel = videoGameInfoModel;
@@ -57,6 +60,10 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
         searchButton.addActionListener(actionEvent -> videoGameInfoController
                 .onEventSearch(searchBoxInWikipedia.getText()));
 
+        saveLocallyButton.addActionListener(actionEvent -> videoGameInfoController
+                .onEventSaveLocallyButton());
+
+
         videoGameInfoModel.addListener(new Listener(){
             @Override
             public void finishSearch(){
@@ -79,13 +86,20 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
                 searchInWikipediaDisplayPane.setCaretPosition(0);
                 stopWorkingStatus();
             }
+            public void notifyViewSaveCorrect(){ showSaveCorrect();}
+
+            public void notifyViewErrorSavingLocally(SQLException sqlException){ showErrorSavingLocally(sqlException);}
+
+            public void didUpdateListener(){}
         });
     }
 
+    private void showErrorSavingLocally(SQLException sqlException){JOptionPane.showMessageDialog(errorMessage,"Error saving locally");}
+    private void showSaveCorrect(){JOptionPane.showMessageDialog(informationMessage, "Save correctly!");}
     private JTextField getSearchBoxInWikipedia(){
         return this.searchBoxInWikipedia;
     }
-
+    public String getLastSearchedText(){ return this.lastSearchedText;}
     private void listOfPages(JPopupMenu searchOptionsMenu){
         for (JsonElement jsonElement : videoGameInfoModel.getQuery()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -101,4 +115,5 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             });
         }
     }
+    public String getSelectedResultTitle(){ return selectedResultTitle;}
 }

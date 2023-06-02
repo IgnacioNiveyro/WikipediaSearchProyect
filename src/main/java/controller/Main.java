@@ -1,15 +1,11 @@
+package controller;
 
 import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
-
-import controller.VideoGameInfoController;
-import controller.VideoGameInfoControllerImpl;
-import dyds.videogameInfo.fulllogic.DataBase;
 import model.VideoGameInfoModel;
 import model.VideoGameInfoModelImpl;
 import views.*;
+import model.DataBase;
 
 
 public class Main {
@@ -17,14 +13,11 @@ public class Main {
 
     public static void main(String[] args) {
         dataBase = new DataBase();
-        /** pregunta para Gotti, es correcto que
-         * al método loadDataBase le agregue en el encabezado
-         * throws SQLException y lo agarre en el main ?*/
-        dataBase.loadDatabase();
 
         VideoGameInfoModel model = new VideoGameInfoModelImpl();
 
         VideoGameInfoController controller = new VideoGameInfoControllerImpl(model);
+
         SearchInWikipediaView wikiView = new SearchInWikipediaViewImpl(controller, model);
         controller.setSearchInWikipediaView(wikiView);
 
@@ -32,10 +25,9 @@ public class Main {
         controller.setStoredInfoView(storedInfo);
 
         ArrayList<BaseView> allMyTabs = new ArrayList<BaseView>();
-        allMyTabs.add(wikiView);
         allMyTabs.add(storedInfo);
+        allMyTabs.add(wikiView);
         showView(allMyTabs);
-
     }
 
     public static void showView(ArrayList<BaseView> allMyTabs){

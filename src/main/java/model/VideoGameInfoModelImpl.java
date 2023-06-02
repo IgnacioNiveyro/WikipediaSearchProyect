@@ -49,6 +49,7 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
         listeners.add(listener);
     }
 
+    public ArrayList<Listener> getListeners(){ return this.listeners;}
     public void getPageIntroduction(SearchResult searchResult) {
         System.out.println("prueba1");
         Response<String> callForPageResponse = api.getPageAPI(searchResult.pageID);
