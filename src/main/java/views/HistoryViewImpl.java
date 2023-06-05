@@ -27,11 +27,17 @@ public class HistoryViewImpl implements HistoryView{
         tabbedName = "Search History";
         storedInfoDisplayPane.setContentType("text/html");
         initListeners();
+        setHistoryDataBase();
     }
     public void initListeners(){
         model.addListener(new Listener() {
             @Override
             public void finishSearch() {
+
+            }
+
+            @Override
+            public void notifyErrorLoadingDataBase(SQLException sqlException) {
 
             }
 
@@ -52,12 +58,12 @@ public class HistoryViewImpl implements HistoryView{
 
             @Override
             public void didUpdateListener() {
-                setHistoryDataBase();
+
             }
 
             @Override
             public void didSaveInHistoryListener() {
-                //setHistoryDataBase();
+                setHistoryDataBase();
             }
 
             @Override
@@ -70,8 +76,7 @@ public class HistoryViewImpl implements HistoryView{
         JOptionPane.showMessageDialog(errorMessage,"Error getting user history");
     }
     private void setHistoryDataBase(){
-        //storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
-        storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getTitleOfDataBase()));
+        storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
     }
     public Container getContent(){return this.content;}
 

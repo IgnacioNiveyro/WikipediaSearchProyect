@@ -1,6 +1,7 @@
 package model;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public class ModelDB implements ModelDBInterface{
     private VideoGameInfoModel model;
@@ -10,6 +11,7 @@ public class ModelDB implements ModelDBInterface{
     public ModelDB(VideoGameInfoModel model){
         this.model = model;
         dataBase = new DataBase();
+        loadDatabase();
     }
 
     public void saveInfo(String title, String extract){
@@ -52,7 +54,7 @@ public class ModelDB implements ModelDBInterface{
     public Object[] getHistoryOfDataBase(){
         Object [] history = null;
         try{
-            history = dataBase.getTitles().stream().sorted().toArray();
+            history = dataBase.getHistory().stream().sorted().toArray();
         }catch (SQLException e){
             for(Listener listener : model.getListeners())
                 listener.notifyErrorGettingUserHistory(e);
@@ -62,5 +64,12 @@ public class ModelDB implements ModelDBInterface{
     public String getContent(String string) throws SQLException {
         return dataBase.getContent(string);
     }
-
+    private void loadDatabase(){
+        try {
+            dataBase.loadDatabase();
+        }catch(SQLException e){
+            for(Listener listener : model.getListeners())
+                listener.notifyErrorLoadingDataBase(e);
+        }
+    }
 }

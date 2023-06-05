@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface VideoGameInfoModel {
 
-    void search(String title);
+    void searchNow(String title) throws IOException;
 
     public JsonArray getQuery();
 

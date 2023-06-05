@@ -1,9 +1,11 @@
 package views;
 
 import controller.VideoGameInfoController;
+import controller.VideoGameInfoControllerImpl;
 import model.Listener;
 import model.ModelDB;
 import model.VideoGameInfoModel;
+import model.VideoGameInfoModelImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -51,6 +53,12 @@ public class StoredInfoViewImpl implements StoredInfoView {
             public void finishSearch() {
 
             }
+
+            @Override
+            public void notifyErrorLoadingDataBase(SQLException sqlException) {
+                showErrorLoadingDataBase(sqlException);
+            }
+
             @Override
             public void fetchPage() {
 
@@ -86,5 +94,8 @@ public class StoredInfoViewImpl implements StoredInfoView {
 
     public void showErrorGetContent(SQLException exception){
         JOptionPane.showMessageDialog(errorMessage, "Error getting content");
+    }
+    public void showErrorLoadingDataBase(SQLException sqlException){
+        JOptionPane.showMessageDialog(errorMessage, "Error loading Data Base");
     }
 }

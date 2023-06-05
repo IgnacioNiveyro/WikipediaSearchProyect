@@ -4,7 +4,7 @@ import java.sql.SQLException;
 
 public interface Listener {
     public void finishSearch();
-
+    public void notifyErrorLoadingDataBase(SQLException sqlException);
     public void fetchPage();
     public void notifyViewErrorSavingLocally(SQLException sqlException);
     public void notifyViewSaveCorrect();

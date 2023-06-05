@@ -21,15 +21,8 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
         gson = new Gson();
         listeners = new ArrayList<Listener>();
     }
-    @Override
-    public void search(String title){
-        try {
-            searchNow(title);
-        }catch (IOException e){
-            System.out.println("No es muy clean code esto..");
-        }
-    }
-    private void searchNow(String title) throws IOException {
+
+    public void searchNow(String title) throws IOException {
         Response <String> callForSearchResponse = api.getSearchAPI().searchForTerm(title +  " articletopic:\"video-games\"").execute();
         JsonObject jsonObject = gson.fromJson(callForSearchResponse.body(), JsonObject.class);
         JsonObject query = jsonObject.get("query").getAsJsonObject();

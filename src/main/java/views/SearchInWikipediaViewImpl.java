@@ -3,12 +3,15 @@ package views;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import controller.VideoGameInfoController;
+import controller.VideoGameInfoControllerImpl;
 import model.Listener;
 import model.SearchResult;
 import model.VideoGameInfoModel;
+import model.VideoGameInfoModelImpl;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.sql.SQLException;
 
 import static model.HTMLConverter.textToHtml;
@@ -31,6 +34,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     protected String tabbedTitle;
     private JOptionPane informationMessage;
     private JOptionPane errorMessage;
+
     public SearchInWikipediaViewImpl(VideoGameInfoController videoGameInfoController, VideoGameInfoModel videoGameInfoModel) {
         this.controller = videoGameInfoController;
         this.model = videoGameInfoModel;
@@ -71,6 +75,12 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
                 listOfPages(searchOptionsMenu);
                 searchOptionsMenu.show(searchBoxInWikipedia, searchBoxInWikipedia.getX(), searchBoxInWikipedia.getY());
             }
+
+            @Override
+            public void notifyErrorLoadingDataBase(SQLException sqlException) {
+
+            }
+
             public void fetchPage(){
                 JsonElement searchResultContent = model.getSearchResultContent();
                 if (searchResultContent == null) {
@@ -81,7 +91,6 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
                     lastSearchedText += searchResultContent.getAsString().replace("\\n", "\n");
                     lastSearchedText = textToHtml(lastSearchedText);
                 }
-                System.out.println("probando fetchPage "+lastSearchedText);
                 searchInWikipediaDisplayPane.setText(lastSearchedText);
                 searchInWikipediaDisplayPane.setCaretPosition(0);
                 stopWorkingStatus();
@@ -103,7 +112,9 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             }
         });
     }
-
+    public void showErrorSearching(IOException ioException){
+        JOptionPane.showMessageDialog(errorMessage,"Error searching!");
+    }
     private void showErrorSavingLocally(SQLException sqlException){JOptionPane.showMessageDialog(errorMessage,"Error saving locally");}
     private void showSaveCorrect(){JOptionPane.showMessageDialog(informationMessage, "Save correctly!");}
     private JTextField getSearchBoxInWikipedia(){

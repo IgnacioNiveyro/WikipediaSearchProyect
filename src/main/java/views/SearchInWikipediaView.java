@@ -1,5 +1,7 @@
 package views;
 
+import java.io.IOException;
+
 public interface SearchInWikipediaView extends BaseView{
     void startWorkingStatus();
 
@@ -9,4 +11,5 @@ public interface SearchInWikipediaView extends BaseView{
 
     String getSelectedResultTitle();
 
+    void showErrorSearching(IOException ioException);
 }

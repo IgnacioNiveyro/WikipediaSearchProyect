@@ -3,10 +3,12 @@ package controller;
 import model.ModelDB;
 import model.ModelDBInterface;
 import model.VideoGameInfoModel;
+import model.VideoGameInfoModelImpl;
 import views.HistoryView;
 import views.SearchInWikipediaView;
 import views.StoredInfoView;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 public class VideoGameInfoControllerImpl implements VideoGameInfoController {
@@ -20,7 +22,6 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     public VideoGameInfoControllerImpl(VideoGameInfoModel videoGameInfoModel){
         this.model = videoGameInfoModel;
         modelDB = new ModelDB(videoGameInfoModel);
-        //onEventSaveLocallyButton();
     }
 
     public void setSearchInWikipediaView(SearchInWikipediaView searchInWikipediaView) {this.searchInWikipediaView = searchInWikipediaView; }
@@ -28,17 +29,24 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     public void setHistoryView(HistoryView historyView){this.historyView = historyView; }
     @Override
     public void onEventSearch(String title){
-        onEventSaveHistory();
+        SaveHistory(title);
+        searchNow(title);
+    }
+    private void searchNow(String title){
         taskThread = new Thread(() -> {
             searchInWikipediaView.startWorkingStatus();
-            model.search(title);
+            try {
+                model.searchNow(title);
+            }catch(IOException e){
+                searchInWikipediaView.showErrorSearching(e);
+            }
             searchInWikipediaView.stopWorkingStatus();
         });
         taskThread.start();
     }
-    public void onEventSaveHistory(){
-        if(searchInWikipediaView.getLastSearchedText() != "")
-            modelDB.saveHistory(searchInWikipediaView.getSelectedResultTitle().replace("'","`"),searchInWikipediaView.getLastSearchedText());
+    public void SaveHistory(String title){
+        if(title != "")
+            modelDB.saveHistory(title.replace("'", "`"), "extracto de vainilla");
     }
     @Override
     public void onEventSaveLocallyButton(){

@@ -14,26 +14,12 @@ public class DataBase {
             DatabaseMetaData meta = connection.getMetaData();
 
             Statement statement = getStatement(connection);
-            //statement.executeUpdate("create table if not exists history (id INTEGER, searchTerm string PRIMARY KEY, extract string, source integer)");
+            statement.executeUpdate("create table if not exists history (id INTEGER, searchTerm string PRIMARY KEY, extract string, source integer)");
             statement.executeUpdate("create table if not exists catalog (id INTEGER, title string PRIMARY KEY, extract string, source integer)");
 
         }
     }
-    public ArrayList<String> getHistory() throws SQLException{
-        ArrayList<String> history = new ArrayList<>();
-        Connection connection = getConnection();
 
-        connection = DriverManager.getConnection("jdbc:sqlite:./dictionary.db");
-        Statement statement = getStatement(connection);
-
-        ResultSet resultSet = statement.executeQuery("select * from catalog");
-        while(resultSet.next()) history.add(resultSet.getString("title"));
-
-        if(connection != null)
-            connection.close();
-
-        return history;
-    }
     public ArrayList<String> getTitles() throws SQLException{
         ArrayList<String> titles = new ArrayList<>();
         Connection connection = getConnection();
@@ -49,6 +35,21 @@ public class DataBase {
 
         return titles;
     }
+    public ArrayList<String> getHistory() throws SQLException{
+        ArrayList<String> history = new ArrayList<>();
+        Connection connection = getConnection();
+
+        connection = DriverManager.getConnection("jdbc:sqlite:./dictionary.db");
+        Statement statement = getStatement(connection);
+
+        ResultSet resultSet = statement.executeQuery("select * from history");
+        while(resultSet.next()) history.add(resultSet.getString("searchTerm"));
+
+        if(connection != null)
+            connection.close();
+
+        return history;
+    }
     public boolean saveHistory(String title, String extract) throws  SQLException{
         boolean itWasDone = false;
         Connection connection = getConnection();
@@ -57,7 +58,7 @@ public class DataBase {
 
         Statement statement = getStatement(connection);
 
-        statement.executeUpdate("replace into catalog values(null, '"+ title + "', '"+ extract + "', 1)");
+        statement.executeUpdate("replace into history values(null, '"+ title + "', '"+ extract + "', 1)");
 
         if(connection != null)
             connection.close();
@@ -73,7 +74,7 @@ public class DataBase {
 
         Statement statement = getStatement(connection);
 
-        statement.executeUpdate("replace into catalog values(null, '"+ title + "', '"+ extract + "', 1)");
+        statement.executeUpdate("replace into catalog values(null, '" + title + "', '" + extract + "', 1)");
 
         if(connection != null)
             connection.close();
