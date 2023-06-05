@@ -24,9 +24,13 @@ public class Main {
         StoredInfoView storedInfo = new StoredInfoViewImpl(controller, model);
         controller.setStoredInfoView(storedInfo);
 
+        HistoryView historyView = new HistoryViewImpl(controller, model);
+        controller.setHistoryView(historyView);
+
         ArrayList<BaseView> allMyTabs = new ArrayList<BaseView>();
         allMyTabs.add(storedInfo);
         allMyTabs.add(wikiView);
+        allMyTabs.add(historyView);
         showView(allMyTabs);
     }
 

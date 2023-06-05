@@ -31,9 +31,6 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
     }
     private void searchNow(String title) throws IOException {
         Response <String> callForSearchResponse = api.getSearchAPI().searchForTerm(title +  " articletopic:\"video-games\"").execute();
-
-        System.out.println("Metodo searchNow JSON " + callForSearchResponse.body());
-
         JsonObject jsonObject = gson.fromJson(callForSearchResponse.body(), JsonObject.class);
         JsonObject query = jsonObject.get("query").getAsJsonObject();
         this.query = query.get("search").getAsJsonArray();
@@ -41,21 +38,9 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
             l.finishSearch();
     }
 
-    public JsonArray getQuery(){
-        return this.query;
-    }
-
-    public void addListener(Listener listener) {
-        listeners.add(listener);
-    }
-
     public ArrayList<Listener> getListeners(){ return this.listeners;}
     public void getPageIntroduction(SearchResult searchResult) {
-        System.out.println("prueba1");
         Response<String> callForPageResponse = api.getPageAPI(searchResult.pageID);
-        System.out.println("prueba2");
-        System.out.println("metodo getPageIntroduction JSON " + callForPageResponse.body());
-
         JsonObject jsonObject = gson.fromJson(callForPageResponse.body(), JsonObject.class);
         JsonObject query2 = jsonObject.get("query").getAsJsonObject();
         JsonObject pages = query2.get("pages").getAsJsonObject();
@@ -69,5 +54,12 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
 
     public JsonElement getSearchResultContent() {
         return this.searchResultContent;
+    }
+    public JsonArray getQuery(){
+        return this.query;
+    }
+
+    public void addListener(Listener listener) {
+        listeners.add(listener);
     }
 }

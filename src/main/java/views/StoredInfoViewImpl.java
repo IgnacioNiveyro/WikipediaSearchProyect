@@ -51,25 +51,29 @@ public class StoredInfoViewImpl implements StoredInfoView {
             public void finishSearch() {
 
             }
-
             @Override
             public void fetchPage() {
 
             }
-
             @Override
             public void notifyViewErrorSavingLocally(SQLException sqlException) {
 
             }
-
             @Override
             public void notifyViewSaveCorrect() {
 
             }
-
             @Override
             public void didUpdateListener() {
                 setTitleDataBase();
+            }
+            @Override
+            public void didSaveInHistoryListener() {
+
+            }
+            @Override
+            public void notifyErrorGettingUserHistory(SQLException sqlException) {
+
             }
         });
     }

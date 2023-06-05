@@ -9,4 +9,6 @@ public interface Listener {
     public void notifyViewErrorSavingLocally(SQLException sqlException);
     public void notifyViewSaveCorrect();
     public void didUpdateListener();
+    public void didSaveInHistoryListener();
+    public void notifyErrorGettingUserHistory(SQLException sqlException);
 }

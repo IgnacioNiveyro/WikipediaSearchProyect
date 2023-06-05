@@ -16,8 +16,8 @@ import static model.HTMLConverter.textToHtml;
 public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     String lastSearchedText = "";
     String selectedResultTitle = "";
-    private VideoGameInfoController videoGameInfoController;
-    private VideoGameInfoModel videoGameInfoModel;
+    private VideoGameInfoController controller;
+    private VideoGameInfoModel model;
     private String searchResultTitle;
     private String searchResultPageId;
     private String searchResultSnippet;
@@ -32,8 +32,8 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     private JOptionPane informationMessage;
     private JOptionPane errorMessage;
     public SearchInWikipediaViewImpl(VideoGameInfoController videoGameInfoController, VideoGameInfoModel videoGameInfoModel) {
-        this.videoGameInfoController = videoGameInfoController;
-        this.videoGameInfoModel = videoGameInfoModel;
+        this.controller = videoGameInfoController;
+        this.model = videoGameInfoModel;
         tabbedTitle = "Search in Wikipedia!";
         searchInWikipediaDisplayPane.setContentType("text/html");
         initListeners();
@@ -57,14 +57,14 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     }
 
     private void initListeners(){
-        searchButton.addActionListener(actionEvent -> videoGameInfoController
+        searchButton.addActionListener(actionEvent -> controller
                 .onEventSearch(searchBoxInWikipedia.getText()));
 
-        saveLocallyButton.addActionListener(actionEvent -> videoGameInfoController
+        saveLocallyButton.addActionListener(actionEvent -> controller
                 .onEventSaveLocallyButton());
 
 
-        videoGameInfoModel.addListener(new Listener(){
+        model.addListener(new Listener(){
             @Override
             public void finishSearch(){
                 JPopupMenu searchOptionsMenu = new JPopupMenu("Search Results");
@@ -72,7 +72,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
                 searchOptionsMenu.show(searchBoxInWikipedia, searchBoxInWikipedia.getX(), searchBoxInWikipedia.getY());
             }
             public void fetchPage(){
-                JsonElement searchResultContent = videoGameInfoModel.getSearchResultContent();
+                JsonElement searchResultContent = model.getSearchResultContent();
                 if (searchResultContent == null) {
                     lastSearchedText = "No Results";
                 } else {
@@ -91,6 +91,16 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             public void notifyViewErrorSavingLocally(SQLException sqlException){ showErrorSavingLocally(sqlException);}
 
             public void didUpdateListener(){}
+
+            @Override
+            public void didSaveInHistoryListener() {
+
+            }
+
+            @Override
+            public void notifyErrorGettingUserHistory(SQLException sqlException) {
+
+            }
         });
     }
 
@@ -101,7 +111,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     }
     public String getLastSearchedText(){ return this.lastSearchedText;}
     private void listOfPages(JPopupMenu searchOptionsMenu){
-        for (JsonElement jsonElement : videoGameInfoModel.getQuery()) {
+        for (JsonElement jsonElement : model.getQuery()) {
             JsonObject jsonObject = jsonElement.getAsJsonObject();
             searchResultTitle = jsonObject.get("title").getAsString();
             searchResultPageId = jsonObject.get("pageid").getAsString();
@@ -111,7 +121,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             searchResult.addActionListener(actionEvent -> {
                 startWorkingStatus();
                 selectedSearchResult = searchResult;
-                videoGameInfoModel.getPageIntroduction(searchResult);
+                model.getPageIntroduction(searchResult);
             });
         }
     }

@@ -14,8 +14,6 @@ public class ModelDB implements ModelDBInterface{
 
     public void saveInfo(String title, String extract){
         boolean itWasDone = false;
-        System.out.println("Mi titulo es:  "+title);
-        System.out.println("Mi extracto es:  "+extract);
         try{
             itWasDone = dataBase.saveInfo(title,extract);
         }catch(SQLException e){
@@ -29,6 +27,17 @@ public class ModelDB implements ModelDBInterface{
                 listener.notifyViewSaveCorrect();
     }
 
+    public void saveHistory(String title, String extract){
+        boolean itWasDone = false;
+        try{
+            itWasDone = dataBase.saveHistory(title,extract);
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+        for(Listener listener : model.getListeners())
+            listener.didSaveInHistoryListener();
+    }
+
     public Object[] getTitleOfDataBase(){
         Object [] title = null;
         try{
@@ -40,6 +49,16 @@ public class ModelDB implements ModelDBInterface{
         return title;
     }
 
+    public Object[] getHistoryOfDataBase(){
+        Object [] history = null;
+        try{
+            history = dataBase.getTitles().stream().sorted().toArray();
+        }catch (SQLException e){
+            for(Listener listener : model.getListeners())
+                listener.notifyErrorGettingUserHistory(e);
+        }
+        return history;
+    }
     public String getContent(String string) throws SQLException {
         return dataBase.getContent(string);
     }
