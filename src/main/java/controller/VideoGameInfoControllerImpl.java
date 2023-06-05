@@ -6,6 +6,8 @@ import model.VideoGameInfoModel;
 import views.SearchInWikipediaView;
 import views.StoredInfoView;
 
+import java.sql.SQLException;
+
 public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     private VideoGameInfoModel videoGameInfoModel;
     private SearchInWikipediaView searchInWikipediaView;
@@ -34,6 +36,15 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     public void onEventSaveLocallyButton(){
         if(searchInWikipediaView.getLastSearchedText() != "")
             modelDB.saveInfo(searchInWikipediaView.getSelectedResultTitle().replace("'","`"),searchInWikipediaView.getLastSearchedText());
+    }
+
+    public void searchGameInfoDB(){
+        String string = storedInfoView.getSelectedGame();
+        try{
+            storedInfoView.getStoredInfoDisplayPane().setText(modelDB.getContent(string));
+        }catch(SQLException e) {
+            storedInfoView.showErrorGetContent(e);
+        }
     }
 
 }

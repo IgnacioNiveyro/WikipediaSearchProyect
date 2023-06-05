@@ -39,4 +39,9 @@ public class ModelDB implements ModelDBInterface{
         }
         return title;
     }
+
+    public String getContent(String string) throws SQLException {
+        return dataBase.getContent(string);
+    }
+
 }
