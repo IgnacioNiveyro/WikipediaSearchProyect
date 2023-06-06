@@ -1,39 +1,16 @@
 package controller;
 
 import javax.swing.*;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import model.VideoGameInfoModel;
 import model.VideoGameInfoModelImpl;
 import views.*;
-import model.DataBase;
+
 
 
 public class Main {
-    private static DataBase dataBase;
 
     public static void main(String[] args) {
-        /**
-        dataBase = new DataBase();
-        try{
-            dataBase.loadDatabase();
-        }catch (SQLException e){
-            System.out.println(e);
-        }
-
-        try {
-            dataBase.saveHistory("rasmundio", "rasmundioContent");
-        }catch (SQLException e){
-            System.out.println("fallo en guardar historias"+e);
-        }
-        try {   // ESTA PORONGA FUE HECHA PARA VER SI ANDABA LA TABLA HISTORY DE LA BD
-            ArrayList<String> arreglo = dataBase.getHistory();
-            for(String s : arreglo)
-                System.out.println(s);
-        }catch (SQLException e){
-            System.out.println("fallo en obtener las historias"+e);
-        }
-         */
         VideoGameInfoModel model = new VideoGameInfoModelImpl();
 
         VideoGameInfoController controller = new VideoGameInfoControllerImpl(model);

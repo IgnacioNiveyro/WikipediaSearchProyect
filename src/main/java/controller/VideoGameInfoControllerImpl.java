@@ -62,5 +62,21 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
             storedInfoView.showErrorGetContent(e);
         }
     }
+    public void onEventDelete(int indexSelected, String selectedGame){
+        if(indexSelected > -1){
+            try{
+                modelDB.onEventDeleteItem(selectedGame);
+                uploadGameList();
+            }catch(SQLException sqlException){
 
+            }
+        }
+    }
+    private void uploadGameList(){
+        storedInfoView.uploadGameList();
+    }
+
+    public void saveData(String selectedItem, String informationText){
+        modelDB.saveInfo(selectedItem,informationText);
+    }
 }

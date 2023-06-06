@@ -21,6 +21,7 @@ public class StoredInfoViewImpl implements StoredInfoView {
     private JScrollPane storedInfoGeneralPane;
     protected String tabbedTitle;
     private JOptionPane errorMessage;
+    private JOptionPane informationMessage;
 
     public StoredInfoViewImpl(VideoGameInfoController controller, VideoGameInfoModel model) {
         this.controller = controller;
@@ -28,8 +29,27 @@ public class StoredInfoViewImpl implements StoredInfoView {
         tabbedTitle = "Stored Info";
         storedInfoDisplayPane.setContentType("text/html");
         modelDB = new ModelDB(this.model);
-        initListeners();
+        JPopupMenu storedInfoPopup = new JPopupMenu();
+        initListeners(storedInfoPopup);
+        JMenuItem saveItem = configuringSaveChangesButtom();
+        storedInfoPopup.add(saveItem);
+        storedInfoDisplayPane.setComponentPopupMenu(storedInfoPopup);
         setTitleDataBase();
+    }
+    private JMenuItem configuringSaveChangesButtom() {
+        JMenuItem saveItem = new JMenuItem("Save Changes!");
+        saveItem.addActionListener(actionEvent -> {
+            if (storedGameInfo.getSelectedItem() != null) {
+                controller.saveData(storedGameInfo.getSelectedItem().toString().replace("'", "`"),storedInfoDisplayPane.getText());
+                showSaveCorrect();
+            } else
+                showErrorSaving(new SQLException("Error"));
+        });
+        return saveItem;
+    }
+    public void uploadGameList(){
+        setTitleDataBase();
+        storedInfoDisplayPane.setText("");
     }
     public void startWorkingStatus() {
         for(Component c: this.content.getComponents()) c.setEnabled(false);
@@ -46,8 +66,11 @@ public class StoredInfoViewImpl implements StoredInfoView {
     }
     public String getTabbedName(){ return this.tabbedTitle; }
 
-    public void initListeners(){
+    public void initListeners(JPopupMenu storedInfoPopup){
         storedGameInfo.addActionListener(ActionEvent -> controller.searchGameInfoDB());
+        JMenuItem deleteItem = new JMenuItem("Delete!");
+        deleteItem.addActionListener(actionEvent -> controller.onEventDelete(storedGameInfo.getSelectedIndex(), storedGameInfo.getSelectedItem().toString()));
+        storedInfoPopup.add(deleteItem);
         model.addListener(new Listener() {
             @Override
             public void finishSearch() {
@@ -83,6 +106,16 @@ public class StoredInfoViewImpl implements StoredInfoView {
             public void notifyErrorGettingUserHistory(SQLException sqlException) {
 
             }
+
+            @Override
+            public void notifyViewDeleteCorrect() {
+                showDeleteCorrect();
+            }
+
+            @Override
+            public void notifyViewErrorDeleting(SQLException sqlException) {
+
+            }
         });
     }
     private void setTitleDataBase(){
@@ -91,11 +124,19 @@ public class StoredInfoViewImpl implements StoredInfoView {
     public String getSelectedGame(){ return storedGameInfo.getSelectedItem().toString();}
 
     public JTextPane getStoredInfoDisplayPane() { return storedInfoDisplayPane;}
-
+    public void showDeleteCorrect(){
+        JOptionPane.showMessageDialog(informationMessage, "Delete correctly");
+    }
     public void showErrorGetContent(SQLException exception){
         JOptionPane.showMessageDialog(errorMessage, "Error getting content");
     }
     public void showErrorLoadingDataBase(SQLException sqlException){
         JOptionPane.showMessageDialog(errorMessage, "Error loading Data Base");
+    }
+    public void showSaveCorrect(){
+        JOptionPane.showMessageDialog(informationMessage, "Save correctly!");
+    }
+    public void showErrorSaving(SQLException e){
+        JOptionPane.showMessageDialog(errorMessage, "Error saving data");
     }
 }

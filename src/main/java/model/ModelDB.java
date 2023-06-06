@@ -64,6 +64,20 @@ public class ModelDB implements ModelDBInterface{
     public String getContent(String string) throws SQLException {
         return dataBase.getContent(string);
     }
+    public void onEventDeleteItem(String selectedGame) throws SQLException {
+        boolean itWasDone = false;
+        try {
+            itWasDone = dataBase.deleteEntry(selectedGame);
+            if (itWasDone) {
+                for (Listener l : model.getListeners())
+                    l.notifyViewDeleteCorrect();
+            }
+        } catch (SQLException e) {
+        }
+        if (!itWasDone)
+            for (Listener l : model.getListeners())
+                l.notifyViewErrorDeleting(new SQLException("Error"));
+    }
     private void loadDatabase(){
         try {
             dataBase.loadDatabase();

@@ -12,4 +12,6 @@ public interface VideoGameInfoController {
     void onEventSearch(String title);
     void onEventSaveLocallyButton();
     void searchGameInfoDB();
+    void onEventDelete(int selectedIndex, String selectedGame);
+    void saveData(String selectedItem, String informationText);
 }

@@ -110,6 +110,16 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             public void notifyErrorGettingUserHistory(SQLException sqlException) {
 
             }
+
+            @Override
+            public void notifyViewDeleteCorrect() {
+
+            }
+
+            @Override
+            public void notifyViewErrorDeleting(SQLException sqlException) {
+
+            }
         });
     }
     public void showErrorSearching(IOException ioException){

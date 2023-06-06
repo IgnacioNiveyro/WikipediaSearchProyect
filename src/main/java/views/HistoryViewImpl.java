@@ -70,6 +70,16 @@ public class HistoryViewImpl implements HistoryView{
             public void notifyErrorGettingUserHistory(SQLException sqlException) {
                 showErrorGettingUserHistory(sqlException);
             }
+
+            @Override
+            public void notifyViewDeleteCorrect() {
+
+            }
+
+            @Override
+            public void notifyViewErrorDeleting(SQLException sqlException) {
+
+            }
         });
     }
     private void showErrorGettingUserHistory(SQLException sqlException){
