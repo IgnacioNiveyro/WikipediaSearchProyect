@@ -2,10 +2,7 @@ package views;
 
 import controller.VideoGameInfoController;
 import controller.VideoGameInfoControllerImpl;
-import model.Listener;
-import model.ModelDB;
-import model.VideoGameInfoModel;
-import model.VideoGameInfoModelImpl;
+import model.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +11,7 @@ import java.sql.SQLException;
 public class StoredInfoViewImpl implements StoredInfoView {
     private VideoGameInfoController controller;
     private VideoGameInfoModel model;
-    private ModelDB modelDB;
+    private ModelDBInterface modelDB;
     protected JPanel content;
     private JComboBox storedGameInfo;
     private JTextPane storedInfoDisplayPane;
@@ -66,7 +63,7 @@ public class StoredInfoViewImpl implements StoredInfoView {
     public String getTabbedName(){ return this.tabbedTitle; }
 
     public void initListeners(JPopupMenu storedInfoPopup){
-        storedGameInfo.addActionListener(ActionEvent -> controller.searchGameInfoDB());
+        storedGameInfo.addActionListener(ActionEvent -> controller.searchGameInfoDB(storedGameInfo.getSelectedItem().toString()));
         JMenuItem deleteItem = new JMenuItem("Delete!");
         deleteItem.addActionListener(actionEvent -> controller.onEventDelete(storedGameInfo.getSelectedIndex(), storedGameInfo.getSelectedItem().toString()));
         storedInfoPopup.add(deleteItem);

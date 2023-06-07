@@ -11,4 +11,6 @@ public interface ModelDBInterface {
     public String getContent(String string) throws SQLException;
 
     public void onEventDeleteItem(String selectedGame) throws SQLException;
+
+    public Object[] getHistoryOfDataBase();
 }

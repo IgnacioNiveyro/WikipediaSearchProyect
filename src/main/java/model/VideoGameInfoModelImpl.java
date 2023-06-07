@@ -31,6 +31,11 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
             l.finishSearch();
     }
 
+    /** clase para buscar desde el historial*/
+    public void searchNowFromHistory(String title) throws IOException{
+        getPageIntroduccionAux("id165820");
+    }
+
     public ArrayList<Listener> getListeners(){ return this.listeners;}
     public void getPageIntroduction(SearchResult searchResult) {
         Response<String> callForPageResponse = api.getPageAPI(searchResult.pageID);
@@ -44,7 +49,18 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
         for (Listener l : listeners)
             l.fetchPage();
     }
-
+    public void getPageIntroduccionAux(String pageID){
+        Response<String> callForPageResponse = api.getPageAPI(pageID);
+        JsonObject jsonObject = gson.fromJson(callForPageResponse.body(), JsonObject.class);
+        JsonObject query2 = jsonObject.get("query").getAsJsonObject();
+        JsonObject pages = query2.get("pages").getAsJsonObject();
+        Set<Map.Entry<String, JsonElement>> pagesSet = pages.entrySet();
+        Map.Entry<String, JsonElement> first = pagesSet.iterator().next();
+        JsonObject page = first.getValue().getAsJsonObject();
+        searchResultContent = page.get("extract");
+        for (Listener l : listeners)
+            l.fetchPage();
+    }
     public JsonElement getSearchResultContent() {
         return this.searchResultContent;
     }

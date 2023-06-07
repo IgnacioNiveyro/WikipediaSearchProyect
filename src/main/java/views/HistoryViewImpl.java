@@ -3,6 +3,7 @@ package views;
 import controller.VideoGameInfoController;
 import model.Listener;
 import model.ModelDB;
+import model.ModelDBInterface;
 import model.VideoGameInfoModel;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class HistoryViewImpl implements HistoryView{
     private JOptionPane errorMessage;
     private VideoGameInfoController controller;
     private VideoGameInfoModel model;
-    private ModelDB modelDB;
+    private ModelDBInterface modelDB;
     public String tabbedName = "";
     public HistoryViewImpl(VideoGameInfoController controller, VideoGameInfoModel model){
         this.controller = controller;
@@ -30,6 +31,7 @@ public class HistoryViewImpl implements HistoryView{
         setHistoryDataBase();
     }
     public void initListeners(){
+        storedHistory.addActionListener(ActionEvent -> controller.searchGameFromHistory(storedHistory.getSelectedItem().toString()));
         model.addListener(new Listener() {
             @Override
             public void finishSearch() {
@@ -86,8 +88,7 @@ public class HistoryViewImpl implements HistoryView{
         JOptionPane.showMessageDialog(errorMessage,"Error getting user history");
     }
     private void setHistoryDataBase(){
-        if(modelDB.getHistoryOfDataBase() != null)
-            storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
+        storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
     }
     public Container getContent(){return this.content;}
 

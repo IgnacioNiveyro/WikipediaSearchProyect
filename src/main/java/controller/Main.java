@@ -15,8 +15,10 @@ public class Main {
 
         VideoGameInfoController controller = new VideoGameInfoControllerImpl(model);
 
+        JTabbedPane tabbedPane1 = new JTabbedPane();
         SearchInWikipediaView wikiView = new SearchInWikipediaViewImpl(controller, model);
         controller.setSearchInWikipediaView(wikiView);
+        wikiView.setTabbedPane(tabbedPane1);
 
         StoredInfoView storedInfo = new StoredInfoViewImpl(controller, model);
         controller.setStoredInfoView(storedInfo);
@@ -28,17 +30,17 @@ public class Main {
         allMyTabs.add(storedInfo);
         allMyTabs.add(wikiView);
         allMyTabs.add(historyView);
-        showView(allMyTabs);
+        showView(allMyTabs,tabbedPane1);
     }
 
-    public static void showView(ArrayList<BaseView> allMyTabs){
+    public static void showView(ArrayList<BaseView> allMyTabs, JTabbedPane tabbedPane1){
         JFrame principalPanelView = new JFrame("Video Game Info");
         principalPanelView.setVisible(true);
         principalPanelView.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         principalPanelView.pack();
 
         principalPanelView.setSize(500, 500);
-        JTabbedPane tabbedPane1 = new JTabbedPane();
+
         principalPanelView.add(tabbedPane1);
 
         addTabbedPane(allMyTabs,tabbedPane1);

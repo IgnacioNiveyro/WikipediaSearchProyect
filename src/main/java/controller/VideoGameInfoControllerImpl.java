@@ -3,7 +3,6 @@ package controller;
 import model.ModelDB;
 import model.ModelDBInterface;
 import model.VideoGameInfoModel;
-import model.VideoGameInfoModelImpl;
 import views.HistoryView;
 import views.SearchInWikipediaView;
 import views.StoredInfoView;
@@ -29,7 +28,6 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     public void setHistoryView(HistoryView historyView){this.historyView = historyView; }
     @Override
     public void onEventSearch(String title){
-        //SaveHistory(title);
         searchNow(title);
     }
     private void searchNow(String title){
@@ -53,11 +51,22 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
         if(searchInWikipediaView.getLastSearchedText() != "")
             modelDB.saveInfo(searchInWikipediaView.getSelectedResultTitle().replace("'","`"),searchInWikipediaView.getLastSearchedText());
     }
-
-    public void searchGameInfoDB(){
-        String string = storedInfoView.getSelectedGame();
+    public void searchGameFromHistory(String selectedContent){
+        searchInWikipediaView.redirectToThisTab();
+        String selectedGame = parseSelectedGame(selectedContent);
+        onEventSearch(selectedGame);
+    }
+    private String parseSelectedGame(String selectedContent){
+        int indice = selectedContent.indexOf("/");
+        if (indice >= 0) {
+            return selectedContent.substring(0, indice).trim();
+        }
+        return selectedContent.trim();
+    }
+    public void searchGameInfoDB(String selectedGame){
         try{
-            storedInfoView.getStoredInfoDisplayPane().setText(modelDB.getContent(string));
+            /** storedInfoView.showContent()*/ /** PARA AHCER DPS LLAMAR A UN METODO DE LA VISTA Y PASARLE (modelDB.getContent(selectedGame)*/
+            storedInfoView.getStoredInfoDisplayPane().setText(modelDB.getContent(selectedGame));
         }catch(SQLException e) {
             storedInfoView.showErrorGetContent(e);
         }

@@ -34,6 +34,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     protected String tabbedTitle;
     private JOptionPane informationMessage;
     private JOptionPane errorMessage;
+    private JTabbedPane tabbedPane;
 
     public SearchInWikipediaViewImpl(VideoGameInfoController videoGameInfoController, VideoGameInfoModel videoGameInfoModel) {
         this.controller = videoGameInfoController;
@@ -152,4 +153,11 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
         }
     }
     public String getSelectedResultTitle(){ return selectedResultTitle;}
+
+    public void setTabbedPane(JTabbedPane thisTabbedPane){
+        this.tabbedPane = thisTabbedPane;
+    }
+    public void redirectToThisTab(){
+        tabbedPane.setSelectedIndex(1);
+    }
 }

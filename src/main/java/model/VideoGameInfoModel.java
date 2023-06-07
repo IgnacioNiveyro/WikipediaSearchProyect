@@ -19,4 +19,6 @@ public interface VideoGameInfoModel {
     public void getPageIntroduction(SearchResult searchResult);
 
     public JsonElement getSearchResultContent();
+
+    public void searchNowFromHistory(String title) throws IOException; /** BORRAR */
 }

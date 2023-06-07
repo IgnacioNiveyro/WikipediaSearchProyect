@@ -1,5 +1,6 @@
 package views;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public interface SearchInWikipediaView extends BaseView{
@@ -12,4 +13,8 @@ public interface SearchInWikipediaView extends BaseView{
     String getSelectedResultTitle();
 
     void showErrorSearching(IOException ioException);
+
+    void redirectToThisTab();
+
+    void setTabbedPane(JTabbedPane tabbedPane1);
 }
