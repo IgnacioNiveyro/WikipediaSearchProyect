@@ -41,6 +41,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
         tabbedTitle = "Search in Wikipedia!";
         searchInWikipediaDisplayPane.setContentType("text/html");
         initListeners();
+        saveLocallyButton.setEnabled(false);
     }
     @Override
     public String getTabbedName(){ return this.tabbedTitle; }
@@ -51,12 +52,12 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
 
 
     public void startWorkingStatus() {
-        for(Component c: this.content.getComponents()) c.setEnabled(false);
+        for(Component c: this.storagePane.getComponents()) c.setEnabled(false);
         searchInWikipediaDisplayPane.setEnabled(false);
     }
 
     public void stopWorkingStatus() {
-        for(Component c: this.content.getComponents()) c.setEnabled(true);
+        for(Component c: this.storagePane.getComponents()) c.setEnabled(true);
         searchInWikipediaDisplayPane.setEnabled(true);
     }
 
@@ -88,6 +89,9 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
                 } else {
                     lastSearchedText = "<h1>" + selectedSearchResult.title + "</h1>";
                     selectedResultTitle = selectedSearchResult.title;
+                    /** termino buscado y pagina, falta poner la fecha */
+                    controller.saveHistory(searchBoxInWikipedia.getText(),selectedResultTitle);
+
                     lastSearchedText += searchResultContent.getAsString().replace("\\n", "\n");
                     lastSearchedText = textToHtml(lastSearchedText);
                 }
@@ -142,6 +146,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             searchResult.addActionListener(actionEvent -> {
                 startWorkingStatus();
                 selectedSearchResult = searchResult;
+
                 model.getPageIntroduction(searchResult);
             });
         }

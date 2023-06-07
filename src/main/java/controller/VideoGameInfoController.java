@@ -14,4 +14,5 @@ public interface VideoGameInfoController {
     void searchGameInfoDB();
     void onEventDelete(int selectedIndex, String selectedGame);
     void saveData(String selectedItem, String informationText);
+    void saveHistory(String userSearchTerm, String selectedPage);
 }

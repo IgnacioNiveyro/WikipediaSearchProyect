@@ -41,7 +41,6 @@ public class StoredInfoViewImpl implements StoredInfoView {
         saveItem.addActionListener(actionEvent -> {
             if (storedGameInfo.getSelectedItem() != null) {
                 controller.saveData(storedGameInfo.getSelectedItem().toString().replace("'", "`"),storedInfoDisplayPane.getText());
-                showSaveCorrect();
             } else
                 showErrorSaving(new SQLException("Error"));
         });

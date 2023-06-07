@@ -14,7 +14,8 @@ public class DataBase {
             DatabaseMetaData meta = connection.getMetaData();
 
             Statement statement = getStatement(connection);
-            statement.executeUpdate("create table if not exists history (id INTEGER, searchTerm string PRIMARY KEY, extract string, source integer)");
+            /**item en el listado debe indicar el termino de buscado, la pagina seleccionada y la fecha en que fue realizada la busqueda */
+            statement.executeUpdate("create table if not exists history (id INTEGER, searchTerm string PRIMARY KEY, selectedPage string, date string)");
             statement.executeUpdate("create table if not exists catalog (id INTEGER, title string PRIMARY KEY, extract string, source integer)");
 
         }
@@ -43,14 +44,14 @@ public class DataBase {
         Statement statement = getStatement(connection);
 
         ResultSet resultSet = statement.executeQuery("select * from history");
-        while(resultSet.next()) history.add(resultSet.getString("searchTerm"));
+        while(resultSet.next()) history.add(resultSet.getString("searchTerm")+" / "+resultSet.getString("selectedPage")+" / "+resultSet.getString("date"));
 
         if(connection != null)
             connection.close();
 
         return history;
     }
-    public boolean saveHistory(String title, String extract) throws  SQLException{
+    public boolean saveHistory(String userSearchTerm, String selectedPage, String date) throws  SQLException{
         boolean itWasDone = false;
         Connection connection = getConnection();
 
@@ -58,7 +59,7 @@ public class DataBase {
 
         Statement statement = getStatement(connection);
 
-        statement.executeUpdate("replace into history values(null, '"+ title + "', '"+ extract + "', 1)");
+        statement.executeUpdate("replace into history values(null, '"+ userSearchTerm + "', '"+ selectedPage + "', '"+date+"')");
 
         if(connection != null)
             connection.close();

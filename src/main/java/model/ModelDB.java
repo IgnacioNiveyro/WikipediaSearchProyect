@@ -1,5 +1,8 @@
 package model;
 
+import utils.CurrentDateManager;
+import utils.DateManager;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -8,9 +11,12 @@ public class ModelDB implements ModelDBInterface{
 
     private DataBase dataBase;
 
+    private DateManager dateManager;
+
     public ModelDB(VideoGameInfoModel model){
         this.model = model;
         dataBase = new DataBase();
+        dateManager = new CurrentDateManager();
         loadDatabase();
     }
 
@@ -29,10 +35,11 @@ public class ModelDB implements ModelDBInterface{
                 listener.notifyViewSaveCorrect();
     }
 
-    public void saveHistory(String title, String extract){
+    public void saveHistory(String userSearchTerm, String pageSelectedByUser){
         boolean itWasDone = false;
+        String date = dateManager.getDate().toString();
         try{
-            itWasDone = dataBase.saveHistory(title,extract);
+            itWasDone = dataBase.saveHistory(userSearchTerm,pageSelectedByUser,date);
         }catch(SQLException e){
             System.out.println(e);
         }

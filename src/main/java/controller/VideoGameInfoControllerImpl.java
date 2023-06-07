@@ -29,7 +29,7 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     public void setHistoryView(HistoryView historyView){this.historyView = historyView; }
     @Override
     public void onEventSearch(String title){
-        SaveHistory(title);
+        //SaveHistory(title);
         searchNow(title);
     }
     private void searchNow(String title){
@@ -44,9 +44,9 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
         });
         taskThread.start();
     }
-    public void SaveHistory(String title){
-        if(title != "")
-            modelDB.saveHistory(title.replace("'", "`"), "extracto de vainilla");
+    public void saveHistory(String userSearchTerm, String selectedPage){
+        if(userSearchTerm != "" && selectedPage != "")
+            modelDB.saveHistory(userSearchTerm.replace("'", "`"), selectedPage);
     }
     @Override
     public void onEventSaveLocallyButton(){

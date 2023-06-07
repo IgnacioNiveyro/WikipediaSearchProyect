@@ -86,7 +86,8 @@ public class HistoryViewImpl implements HistoryView{
         JOptionPane.showMessageDialog(errorMessage,"Error getting user history");
     }
     private void setHistoryDataBase(){
-        storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
+        if(modelDB.getHistoryOfDataBase() != null)
+            storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
     }
     public Container getContent(){return this.content;}
 
