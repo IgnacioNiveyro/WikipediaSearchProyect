@@ -63,11 +63,22 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     }
 
     private void initListeners(){
-        searchButton.addActionListener(actionEvent -> controller
-                .onEventSearch(searchBoxInWikipedia.getText()));
+        searchButton.addActionListener(actionEvent -> {
+            if(searchBoxInWikipedia.getText().isEmpty())
+                showEmptySearchingError();
+            else
+                controller.onEventSearch(searchBoxInWikipedia.getText());
 
-        saveLocallyButton.addActionListener(actionEvent -> controller
-                .onEventSaveLocallyButton());
+        });
+
+        saveLocallyButton.addActionListener(actionEvent -> {
+            String title = searchBoxInWikipedia.getText();
+            String gameContent = searchInWikipediaDisplayPane.getText();
+            if(title != "")
+                controller.onEventSaveLocallyButton(selectedResultTitle,gameContent);
+            else
+                showEmptySearchingError();
+        });
 
 
         model.addListener(new Listener(){
@@ -90,7 +101,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
                 } else {
                     lastSearchedText = "<h1>" + selectedSearchResult.title + "</h1>";
                     selectedResultTitle = selectedSearchResult.title;
-                    /** termino buscado y pagina, falta poner la fecha */
+
                     controller.saveHistory(searchBoxInWikipedia.getText(),selectedResultTitle);
 
                     lastSearchedText += searchResultContent.getAsString().replace("\\n", "\n");
@@ -129,6 +140,9 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     }
     public void showErrorSearching(IOException ioException){
         JOptionPane.showMessageDialog(errorMessage,"Error searching!");
+    }
+    public void showEmptySearchingError(){
+        JOptionPane.showMessageDialog(errorMessage,"The search box is empty!");
     }
     private void showErrorSavingLocally(SQLException sqlException){JOptionPane.showMessageDialog(errorMessage,"Error saving locally");}
     private void showSaveCorrect(){JOptionPane.showMessageDialog(informationMessage, "Save correctly!");}

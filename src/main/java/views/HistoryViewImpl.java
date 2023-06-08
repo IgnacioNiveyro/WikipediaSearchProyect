@@ -31,7 +31,7 @@ public class HistoryViewImpl implements HistoryView{
         setHistoryDataBase();
     }
     public void initListeners(){
-        storedHistory.addActionListener(ActionEvent -> controller.searchGameFromHistory(storedHistory.getSelectedItem().toString()));
+        storedHistory.addActionListener(ActionEvent -> controller.searchGameFromHistory(storedHistory.getSelectedItem().toString())); /**chequear vacio*/
         model.addListener(new Listener() {
             @Override
             public void finishSearch() {

@@ -47,16 +47,14 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
             modelDB.saveHistory(userSearchTerm.replace("'", "`"), selectedPage);
     }
     @Override
-    public void onEventSaveLocallyButton(){
-        if(searchInWikipediaView.getLastSearchedText() != "")
-            modelDB.saveInfo(searchInWikipediaView.getSelectedResultTitle().replace("'","`"),searchInWikipediaView.getLastSearchedText());
+    public void onEventSaveLocallyButton(String title, String gameContent){
+        modelDB.saveInfo(title.replace("'","`"),gameContent);
     }
     public void searchGameFromHistory(String selectedContent){
         String gameToSearch = obtenerSubstring(selectedContent);
         String selectedGame = parseSelectedGame(selectedContent);
         searchInWikipediaView.setSearchBoxInWikipedia(selectedGame);
         searchInWikipediaView.redirectToThisTab();
-        //onEventSearch(selectedGame);
         try {
             model.redoSearch(gameToSearch);
         }catch(IOException e){

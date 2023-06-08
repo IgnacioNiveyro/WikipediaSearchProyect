@@ -65,7 +65,12 @@ public class StoredInfoViewImpl implements StoredInfoView {
     public void initListeners(JPopupMenu storedInfoPopup){
         storedGameInfo.addActionListener(ActionEvent -> controller.searchGameInfoDB(storedGameInfo.getSelectedItem().toString()));
         JMenuItem deleteItem = new JMenuItem("Delete!");
-        deleteItem.addActionListener(actionEvent -> controller.onEventDelete(storedGameInfo.getSelectedIndex(), storedGameInfo.getSelectedItem().toString()));
+        deleteItem.addActionListener(actionEvent -> {
+            if(storedGameInfo.getSelectedIndex()>-1)
+                controller.onEventDelete(storedGameInfo.getSelectedIndex(), storedGameInfo.getSelectedItem().toString());
+            else
+                showErrorDeleting();
+        });
         storedInfoPopup.add(deleteItem);
         model.addListener(new Listener() {
             @Override
@@ -122,6 +127,9 @@ public class StoredInfoViewImpl implements StoredInfoView {
     public JTextPane getStoredInfoDisplayPane() { return storedInfoDisplayPane;}
     public void showDeleteCorrect(){
         JOptionPane.showMessageDialog(informationMessage, "Delete correctly");
+    }
+    public void showErrorDeleting(){
+        JOptionPane.showMessageDialog(errorMessage, "Error deleting content");
     }
     public void showErrorGetContent(SQLException exception){
         JOptionPane.showMessageDialog(errorMessage, "Error getting content");

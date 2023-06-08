@@ -10,7 +10,7 @@ public interface VideoGameInfoController {
     public void setStoredInfoView(StoredInfoView storedInfoView);
     public void setHistoryView(HistoryView historyView);
     void onEventSearch(String title);
-    void onEventSaveLocallyButton();
+    void onEventSaveLocallyButton(String title, String gameContent);
     void searchGameInfoDB(String selectedGame);
     void searchGameFromHistory(String selectedGame);
     void onEventDelete(int selectedIndex, String selectedGame);
