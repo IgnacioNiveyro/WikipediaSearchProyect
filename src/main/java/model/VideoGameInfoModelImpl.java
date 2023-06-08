@@ -31,11 +31,14 @@ public class VideoGameInfoModelImpl implements VideoGameInfoModel{
             l.finishSearch();
     }
 
-    /** clase para buscar desde el historial*/
-    public void searchNowFromHistory(String title) throws IOException{
-        getPageIntroduccionAux("id165820");
+    public void redoSearch(String selectedGame) throws IOException{
+        Response <String> callForSearchResponse = api.getSearchAPI().redoSearchForTerm(selectedGame +  " articletopic:\"video-games\"").execute();
+        JsonObject jsonObject = gson.fromJson(callForSearchResponse.body(), JsonObject.class);
+        JsonObject query = jsonObject.get("query").getAsJsonObject();
+        this.query = query.get("search").getAsJsonArray();
+        for (Listener l : listeners)
+            l.finishSearch();
     }
-
     public ArrayList<Listener> getListeners(){ return this.listeners;}
     public void getPageIntroduction(SearchResult searchResult) {
         Response<String> callForPageResponse = api.getPageAPI(searchResult.pageID);

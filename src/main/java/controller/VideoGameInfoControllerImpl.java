@@ -52,14 +52,32 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
             modelDB.saveInfo(searchInWikipediaView.getSelectedResultTitle().replace("'","`"),searchInWikipediaView.getLastSearchedText());
     }
     public void searchGameFromHistory(String selectedContent){
-        searchInWikipediaView.redirectToThisTab();
+        String gameToSearch = obtenerSubstring(selectedContent);
         String selectedGame = parseSelectedGame(selectedContent);
-        onEventSearch(selectedGame);
+        searchInWikipediaView.setSearchBoxInWikipedia(selectedGame);
+        searchInWikipediaView.redirectToThisTab();
+        //onEventSearch(selectedGame);
+        try {
+            model.redoSearch(gameToSearch);
+        }catch(IOException e){
+            searchInWikipediaView.showErrorSearching(e);
+        }
     }
+    private String obtenerSubstring(String texto) {
+        int primerIndice = texto.indexOf("/");
+        int segundoIndice = texto.indexOf("/", primerIndice + 1);
+
+        if (primerIndice >= 0 && segundoIndice >= 0) {
+            return texto.substring(primerIndice + 1, segundoIndice).trim();
+        }
+
+        return "";
+    }
+
     private String parseSelectedGame(String selectedContent){
-        int indice = selectedContent.indexOf("/");
-        if (indice >= 0) {
-            return selectedContent.substring(0, indice).trim();
+        int indexOfElements = selectedContent.indexOf("/");
+        if (indexOfElements >= 0) {
+            return selectedContent.substring(0, indexOfElements).trim();
         }
         return selectedContent.trim();
     }

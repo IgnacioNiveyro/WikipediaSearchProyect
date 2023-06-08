@@ -160,4 +160,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     public void redirectToThisTab(){
         tabbedPane.setSelectedIndex(1);
     }
+    public void setSearchBoxInWikipedia(String content){
+        this.searchBoxInWikipedia.setText(content);
+    }
 }

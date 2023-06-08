@@ -17,4 +17,6 @@ public interface SearchInWikipediaView extends BaseView{
     void redirectToThisTab();
 
     void setTabbedPane(JTabbedPane tabbedPane1);
+
+    void setSearchBoxInWikipedia(String content);
 }

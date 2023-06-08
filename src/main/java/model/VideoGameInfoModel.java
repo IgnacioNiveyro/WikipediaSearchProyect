@@ -20,5 +20,5 @@ public interface VideoGameInfoModel {
 
     public JsonElement getSearchResultContent();
 
-    public void searchNowFromHistory(String title) throws IOException; /** BORRAR */
+    public void redoSearch(String selectedGame) throws IOException;
 }
