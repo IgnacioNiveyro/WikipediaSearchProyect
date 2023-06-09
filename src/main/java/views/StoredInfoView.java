@@ -9,6 +9,6 @@ public interface StoredInfoView extends BaseView {
     JTextPane getStoredInfoDisplayPane();
     void showErrorGetContent(SQLException exception);
     void uploadGameList();
-
+    void showContent(String contentToShow);
 
 }

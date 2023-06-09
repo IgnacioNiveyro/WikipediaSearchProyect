@@ -8,7 +8,7 @@ public class HTMLConverter {
 
         builder.append("<font face=\"arial\">");
 
-        String fixedText = text.replace("'", "`"); //Replace to avoid SQL errors, we will have to find a workaround..
+        String fixedText = text.replace("'", "`");
 
         builder.append(fixedText);
 

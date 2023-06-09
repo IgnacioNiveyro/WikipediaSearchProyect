@@ -41,7 +41,8 @@ public class ModelDB implements ModelDBInterface{
         try{
             itWasDone = dataBase.saveHistory(userSearchTerm,pageSelectedByUser,date);
         }catch(SQLException e){
-            System.out.println(e);
+            for(Listener listener : model.getListeners())
+                listener.notifyViewErrorSavingHistory(e);
         }
         for(Listener listener : model.getListeners())
             listener.didSaveInHistoryListener();
@@ -92,5 +93,8 @@ public class ModelDB implements ModelDBInterface{
             for(Listener listener : model.getListeners())
                 listener.notifyErrorLoadingDataBase(e);
         }
+    }
+    public void setDataBase(DataBase dataBase){
+        this.dataBase = dataBase;
     }
 }

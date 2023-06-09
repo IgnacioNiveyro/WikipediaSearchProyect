@@ -1,8 +1,6 @@
 package controller;
 
-import model.ModelDB;
-import model.ModelDBInterface;
-import model.VideoGameInfoModel;
+import model.*;
 import views.HistoryView;
 import views.SearchInWikipediaView;
 import views.StoredInfoView;
@@ -51,7 +49,7 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
         modelDB.saveInfo(title.replace("'","`"),gameContent);
     }
     public void searchGameFromHistory(String selectedContent){
-        String gameToSearch = obtenerSubstring(selectedContent);
+        String gameToSearch = getSubString(selectedContent);
         String selectedGame = parseSelectedGame(selectedContent);
         searchInWikipediaView.setSearchBoxInWikipedia(selectedGame);
         searchInWikipediaView.redirectToThisTab();
@@ -61,12 +59,12 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
             searchInWikipediaView.showErrorSearching(e);
         }
     }
-    private String obtenerSubstring(String texto) {
-        int primerIndice = texto.indexOf("/");
-        int segundoIndice = texto.indexOf("/", primerIndice + 1);
+    private String getSubString(String StringToParse) {
+        int firstIndex = StringToParse.indexOf("/");
+        int secondIndex = StringToParse.indexOf("/", firstIndex + 1);
 
-        if (primerIndice >= 0 && segundoIndice >= 0) {
-            return texto.substring(primerIndice + 1, segundoIndice).trim();
+        if (firstIndex >= 0 && secondIndex >= 0) {
+            return StringToParse.substring(firstIndex + 1, secondIndex).trim();
         }
 
         return "";
@@ -81,8 +79,7 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
     }
     public void searchGameInfoDB(String selectedGame){
         try{
-            /** storedInfoView.showContent()*/ /** PARA AHCER DPS LLAMAR A UN METODO DE LA VISTA Y PASARLE (modelDB.getContent(selectedGame)*/
-            storedInfoView.getStoredInfoDisplayPane().setText(modelDB.getContent(selectedGame));
+            storedInfoView.showContent(modelDB.getContent(selectedGame));
         }catch(SQLException e) {
             storedInfoView.showErrorGetContent(e);
         }
@@ -103,5 +100,11 @@ public class VideoGameInfoControllerImpl implements VideoGameInfoController {
 
     public void saveData(String selectedItem, String informationText){
         modelDB.saveInfo(selectedItem,informationText);
+    }
+    public void setModelDB(ModelDB modelDB){
+        this.modelDB = modelDB;
+    }
+    public void setModel(VideoGameInfoModelImpl model){
+        this.model = model;
     }
 }

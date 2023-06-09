@@ -82,12 +82,20 @@ public class HistoryViewImpl implements HistoryView{
             public void notifyViewErrorDeleting(SQLException sqlException) {
 
             }
+
+            @Override
+            public void notifyViewErrorSavingHistory(SQLException sqlException) {
+                showErrorSavingHistory(sqlException);
+            }
         });
     }
-    private void showErrorGettingUserHistory(SQLException sqlException){
+    public void showErrorSavingHistory(SQLException sqlException){
+        JOptionPane.showMessageDialog(errorMessage,"Error saving search in history");
+    }
+    public void showErrorGettingUserHistory(SQLException sqlException){
         JOptionPane.showMessageDialog(errorMessage,"Error getting user history");
     }
-    private void setHistoryDataBase(){
+    public void setHistoryDataBase(){
         storedHistory.setModel(new DefaultComboBoxModel<Object>(modelDB.getHistoryOfDataBase()));
     }
     public Container getContent(){return this.content;}

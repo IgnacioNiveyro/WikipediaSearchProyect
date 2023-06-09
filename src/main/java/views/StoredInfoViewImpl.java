@@ -1,7 +1,6 @@
 package views;
 
 import controller.VideoGameInfoController;
-import controller.VideoGameInfoControllerImpl;
 import model.*;
 
 import javax.swing.*;
@@ -117,7 +116,15 @@ public class StoredInfoViewImpl implements StoredInfoView {
             public void notifyViewErrorDeleting(SQLException sqlException) {
 
             }
+
+            @Override
+            public void notifyViewErrorSavingHistory(SQLException sqlException) {
+
+            }
         });
+    }
+    public void showContent(String contentToShow){
+        storedInfoDisplayPane.setText(contentToShow);
     }
     private void setTitleDataBase(){
         storedGameInfo.setModel(new DefaultComboBoxModel<Object>(modelDB.getTitleOfDataBase()));

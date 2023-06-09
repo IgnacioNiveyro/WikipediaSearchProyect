@@ -13,4 +13,5 @@ public interface Listener {
     public void notifyErrorGettingUserHistory(SQLException sqlException);
     public void notifyViewDeleteCorrect();
     public void notifyViewErrorDeleting(SQLException sqlException);
+    public void notifyViewErrorSavingHistory(SQLException sqlException);
 }

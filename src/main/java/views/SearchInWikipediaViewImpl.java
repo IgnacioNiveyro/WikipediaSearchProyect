@@ -3,11 +3,9 @@ package views;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import controller.VideoGameInfoController;
-import controller.VideoGameInfoControllerImpl;
 import model.Listener;
 import model.SearchResult;
 import model.VideoGameInfoModel;
-import model.VideoGameInfoModelImpl;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +40,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
         tabbedTitle = "Search in Wikipedia!";
         searchInWikipediaDisplayPane.setContentType("text/html");
         initListeners();
-        saveLocallyButton.setEnabled(false);
+        disableSaveLocallyButton();
     }
     @Override
     public String getTabbedName(){ return this.tabbedTitle; }
@@ -51,7 +49,9 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
         return this.content;
     }
 
-
+    public void disableSaveLocallyButton(){
+        saveLocallyButton.setEnabled(false);
+    }
     public void startWorkingStatus() {
         for(Component c: this.storagePane.getComponents()) c.setEnabled(false);
         searchInWikipediaDisplayPane.setEnabled(false);
@@ -136,6 +136,11 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
             public void notifyViewErrorDeleting(SQLException sqlException) {
 
             }
+
+            @Override
+            public void notifyViewErrorSavingHistory(SQLException sqlException) {
+
+            }
         });
     }
     public void showErrorSearching(IOException ioException){
@@ -146,7 +151,7 @@ public class SearchInWikipediaViewImpl implements SearchInWikipediaView{
     }
     private void showErrorSavingLocally(SQLException sqlException){JOptionPane.showMessageDialog(errorMessage,"Error saving locally");}
     private void showSaveCorrect(){JOptionPane.showMessageDialog(informationMessage, "Save correctly!");}
-    private JTextField getSearchBoxInWikipedia(){
+    public JTextField getSearchBoxInWikipedia(){
         return this.searchBoxInWikipedia;
     }
     public String getLastSearchedText(){ return this.lastSearchedText;}
