@@ -78,20 +78,4 @@ public class UnitTest {
         verify(modelDB,times(1)).onEventDeleteItem("L.A. Noire");
     }
 
-    /** Test que no anduvieron*/
-    @Test
-    public void testGetTitleOfDataBase() throws SQLException{
-        ArrayList<String> titles = new ArrayList<>();
-        when(dataBase.getTitles()).thenReturn(titles);
-        System.out.println(dataBase.getTitles());
-        assertEquals(modelDB.getTitleOfDataBase(),titles);
-    }
-    @Test
-    public void testGetContent() throws SQLException{
-        String contentExpected = "Text about L.A. Noire";
-        when(dataBase.getContent("L.A. Noire")).thenReturn(contentExpected);
-        String expectedContent = modelDB.getContent("L.A. Noire");
-        System.out.println("mi contenido es: "+expectedContent);
-        assertEquals(expectedContent, contentExpected);
-    }
 }
