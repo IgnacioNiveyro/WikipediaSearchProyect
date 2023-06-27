@@ -13,10 +13,10 @@ Se trabajo sobre un proyecto gradle en IntelliJ, para poder ejecutar el proyecto
 
 ![segunda foto configuracion](https://github.com/IgnacioNiveyro/WikipediaSearchProyect/blob/master/config_image_2.png)
 
-Se utilizó la API de Wikipedia por lo que los siguientes links pueden ser de utilidad
+### Se utilizó la API de Wikipedia por lo que los siguientes links pueden ser de utilidad
 
-https://www.mediawiki.org/wiki/API:Query
+  - https://www.mediawiki.org/wiki/API:Query
 
-https://www.mediawiki.org/wiki/API:Search
+  - https://www.mediawiki.org/wiki/API:Search
 
 
